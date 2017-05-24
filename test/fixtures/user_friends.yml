@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  UserID: 1
+  FriendID: 1
+  Pending: false
+  created_at: 2017-05-23 21:14:05
+
+two:
+  UserID: 1
+  FriendID: 1
+  Pending: false
+  created_at: 2017-05-23 21:14:05
