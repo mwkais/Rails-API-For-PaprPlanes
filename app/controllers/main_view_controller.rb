@@ -1,4 +1,4 @@
-class main_view_controller < ApplicationController
+class MainViewController < ApplicationController
 
   def login
     user = User.where(:Email => params[:Email]).where(:Password => params[:Password]).first
@@ -18,15 +18,19 @@ class main_view_controller < ApplicationController
 
   def mainRequestLoad
     temp = Array.new
-    @user_friend = Userfriend.where({UserID:params [:FriendID]}).where({Pending: 'true'}).each do |pa|
+    @user_friend = Userfriend.where({:UserID => params[:FriendID]}).where({Pending: 'true'}).each do |pa|
       temp << pa.FriendID
     end
     render json: Userfriend.where(FriendID: temp)
   end
 
   def mainCounterLoad
+    temp = Array.new
 
-
+    counterdata = Post.where({:UserID => params[:UserID]}).each do |k|
+      temp << k.Counter
+    end
+    render json: Post.where(UserID: temp)
   end
 
 end
