@@ -6,21 +6,27 @@ class MainViewController < ApplicationController
   end
 
   def userLoad
-    user = User.where(:id => params[:userID])
+    user = User.where(:id => params[:UserId])
     render json: user
   end
 
   def mainPostLoad
-    @PostAccess=PostAccess.where({FriendId:params[:UserId]})
-
-    render json: @PostAccess.to_json(:include => [:user, {post: {:include => :user}}])
+    temp = Array.new
+    PostAccess.where({FriendID: params[:UserId]}).where({Viewed: 'f'}).each do |k|
+    temp << k.PostID
   end
+    render json: Post.where(id: temp), :only => [:id, :UserID, :Type]
+  end
+
+
+
 
   def mainRequestLoad
     temp = Array.new
     @user_friend = Userfriend.where({:UserID => params[:FriendID]}).where({Pending: 'true'}).each do |pa|
       temp << pa.FriendID
     end
+
     render json: Userfriend.where(FriendID: temp)
   end
 
@@ -30,7 +36,9 @@ class MainViewController < ApplicationController
     counterdata = Post.where({:UserID => params[:UserID]}).each do |k|
       temp << k.Counter
     end
-    render json: Post.where(UserID: temp)
+    arr = Post.where(UserID: temp)
+    render :json
+
   end
 
 end
